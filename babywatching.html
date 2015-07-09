@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+	<title>Recompose Baby Sensor</title>
+  <style>
+  #stop_button {
+    visibility:hidden;
+  }
+  li {
+    list-style-type: none;
+  }
+
+  button {
+    outline:none;
+  }
+
+  </style>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/common.js"></script>
+
+  <style>
+    header {
+      margin-bottom: 5px;
+    }
+  </style>
+
+
+</head>
+<body>
+<div class="container theme-showcase">
+<script>
+  writeNavbar();
+  $("#watch").attr('class', 'active');
+  </script>
+	<script>
+    setInterval(
+      function(){$.ajax({
+        url: 'http://crossroads.thefanzhang.com/check',
+        type: 'get',
+      }).done(function(data) {
+        console.log(data);
+        if(data === "Baby is crying!"){
+          /*$("#stop_button").css(
+            "visibility", "visible"
+          );*/
+          $("#myModal").modal({show: true});
+        }
+      });
+    }, 1000);
+
+    $(document).ready(function(){
+      $("#myModal").modal({show: false});
+    });
+</script>
+<div class="list-group">
+  <button type="submit" id="m0" class="list-group-item"><span class="badge"><span id="m0icon" class="glyphicon glyphicon-play" aria-hidden="true"></span></span>Sample Music1</button>
+  <button type="submit" id="m1" class="list-group-item"><span class="badge"><span id="m1icon" class="glyphicon glyphicon-play" aria-hidden="true"></span></span>Sample Music2</button>
+  <button type="submit" id="m2" class="list-group-item"><span class="badge"><span id="m2icon" class="glyphicon glyphicon-play" aria-hidden="true"></span></span>Sample Music3</button>
+</div>
+</form>
+<form method="post" onsubmit="return false;">
+  <div id="myModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h3 class="modal-title">赤ちゃんが起きました</h3>
+          </div>
+          <div class="modal-body">
+            <p>すぐに確認にいきましょう</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">OK</button>
+          </div>
+      </div>
+  </div>
+  </div>
+</form>
+</div>
+<!--input id="stop_button" type="submit" value="Stop"-->
+<script>
+/*for(var i=0; i<3; i++){
+  $('#m'+i).click(function(){
+    $("#m"+i).attr('class', 'list-group-item-success');
+    $("#m"+i+"icon").attr('class', 'glyphicon glyphicon-stop');
+  });
+  console.log($("#m"+i));
+}*/
+
+$('#m0').click(function(){
+  $("#m0").attr('class', 'list-group-item list-group-item-success');
+  $("#m0icon").attr('class', 'glyphicon glyphicon-stop');
+  $("#m1").attr('class', 'list-group-item');
+  $("#m1icon").attr('class', 'glyphicon glyphicon-play');
+  $("#m2").attr('class', 'list-group-item');
+  $("#m2icon").attr('class', 'glyphicon glyphicon-play');
+});
+$('#m1').click(function(){
+  $("#m0").attr('class', 'list-group-item');
+  $("#m0icon").attr('class', 'glyphicon glyphicon-play');
+  $("#m1").attr('class', 'list-group-item list-group-item-success');
+  $("#m1icon").attr('class', 'glyphicon glyphicon-stop');
+  $("#m2").attr('class', 'list-group-item');
+  $("#m2icon").attr('class', 'glyphicon glyphicon-play');
+});
+$('#m2').click(function(){
+  $("#m0").attr('class', 'list-group-item');
+  $("#m0icon").attr('class', 'glyphicon glyphicon-play');
+  $("#m1").attr('class', 'list-group-item');
+  $("#m1icon").attr('class', 'glyphicon glyphicon-play');
+  $("#m2").attr('class', 'list-group-item list-group-item-success');
+  $("#m2icon").attr('class', 'glyphicon glyphicon-stop');
+});
+</script>
+</form>
+</body>
+</html>

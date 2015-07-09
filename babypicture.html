@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=0.85, user-scalable=no">
+	<title>Recompose Baby Sensor</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link href = "http://static.thefanzhang.com/css/metro.css" rel = "stylesheet" type = "text/css">
+	<link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
+	<link rel="stylesheet" href="css/bootstrap-image-gallery.min.css">
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src = "http://static.thefanzhang.com/scripts/metro.js"></script>
+  <script type="text/javascript" src="js/common.js"></script>
+
+	<style>
+		header {
+			margin-bottom: 5px;
+		}
+	</style>
+
+</head>
+<body>
+	<div class="container theme-showcase">
+  <script>
+  writeNavbar();
+  $("#pic").attr('class', 'active');
+  </script>
+<form action="http://crossroads.thefanzhang.com/album" enctype="multipart/form-data" method="post">
+  <input type="file" name="image">
+  <input type="submit" value="Upload">
+</form>
+</div>
+<div class="metro" id="images">
+    <span class="name">Test</span>
+</div>
+
+<script>
+var ua = navigator.userAgent;
+metrofy();
+
+setInterval(
+	function(){$.ajax({
+		url: 'http://crossroads.thefanzhang.com/check',
+		type: 'get',
+	}).done(function(data) {
+		console.log(data);
+		if(data === "Baby is crying!"){
+			/*$("#stop_button").css(
+				"visibility", "visible"
+			);*/
+			document.location = "./babywatching.html";
+		}
+	});
+}, 1000);
+
+$.ajax({
+	url: 'http://crossroads.thefanzhang.com/album',
+	type: 'GET'
+}).done(function(data) {
+	console.log(data);
+
+	$('#images').empty();
+
+	var smallfrag = false;
+	for (var i = 0; i < data.rowCount; i++) {
+		var randnum = Math.floor( Math.random() * 3 );
+		var tile;
+		if(randnum == 0 || smallfrag == true){
+			tile = "<div class = 'tile small'>";
+			smallfrag = !smallfrag;
+		} else if(randnum == 1){
+			tile = "<div class = 'tile medium'>";
+		} else if(randnum == 2){
+			tile = "<div class = 'tile large'>";
+		}
+		if ((ua.indexOf('Android') > 0 && ua.indexOf('Mobile') > 0) || (ua.indexOf('iPhone') > 0 && ua.indexOf('Mobile') > 0)){
+				tile += "<a href = '" + data.rows[i].image_url + "' data-gallery>";
+	      tile += "<img src = '" + data.rows[i].image_url + "'>";
+				tile += "</a>";
+				tile += "</div>";
+				$('#images').append(tile);
+	  } else {
+		      //<span class="name">を追加することで画像に文字をオーバーラップ
+					tile += "<a href = '" + data.rows[i].image_url + "' data-gallery>";
+		      tile += "<img src = '" + data.rows[i].image_url + "'>";
+					tile += "</a>";
+					tile += "</div>";
+					$('#images').append(tile);
+			}
+	}
+	metrofy();
+	$(".metro").css("margin", "0 auto");
+});
+</script>
+<!-- The Bootstrap Image Gallery lightbox, should be a child element of the document body -->
+<div id="blueimp-gallery" class="blueimp-gallery">
+  <!-- The container for the modal slides -->
+  <div class="slides"></div>
+  <!-- Controls for the borderless lightbox -->
+  <h3 class="title"></h3>
+  <a class="prev">‹</a>
+  <a class="next">›</a>
+  <a class="close">×</a>
+  <a class="play-pause"></a>
+  <ol class="indicator"></ol>
+  <!-- The modal dialog, which will be used to wrap the lightbox content -->
+  <div class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" aria-hidden="true">&times;</button>
+          <h4 class="modal-title"></h4>
+        </div>
+        <div class="modal-body next"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default pull-left prev">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            Previous
+          </button>
+          <button type="button" class="btn btn-primary next">
+            Next
+            <i class="glyphicon glyphicon-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<script src="//blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
+<script src="js/bootstrap-image-gallery.min.js"></script>
+
+</body>
+</html>
